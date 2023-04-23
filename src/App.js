@@ -25,7 +25,7 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
-           <Route  exact path="/profile" component={ Profile } />
+           <Route  path="/profile" component={Profile} />
           <Route path="*" component={Home} />
         </Switch>
       </Router>

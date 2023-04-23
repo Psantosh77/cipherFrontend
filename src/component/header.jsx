@@ -19,11 +19,11 @@ const Header = () => {
   const history = useHistory();
   const isLogin = localStorage.getItem("isLogin");
 
-  console.log("isLogin", typeof isLogin, isLogin);
+
 
   const [auth, setAuth] = React.useState("false");
   const [apistatus, setStatus] = React.useState("false");
-  console.log(typeof auth);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   React.useEffect(() => {

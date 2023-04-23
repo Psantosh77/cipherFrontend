@@ -112,7 +112,7 @@ const Profile = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log("userId: " + UserId);
+ 
 
   const initialValues = {
     firstName: "",
@@ -156,7 +156,7 @@ const Profile = () => {
   const getUser = async () => {
     try {
       const response = await api.get(`/users/getUser/${UserId}`);
-      console.log(response);
+      
       const data = response.data.message;
       const status = response.data.status;
       if (status) {

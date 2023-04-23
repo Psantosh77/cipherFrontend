@@ -56,13 +56,13 @@ const Header = () => {
     setAuth("false");
     history.push("/")
     localStorage.setItem("isLogin", "false");
-    window.location.reload();
+   
     localStorage.clear();
   };
 
   const onClickProfile =()=>{
     history.push("/profile")
-    window.location.reload();
+    
   }
 
   return (

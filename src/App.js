@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 
 import Header from "./component/header";
 import Home from "./pages/landingPage/landingPage";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 

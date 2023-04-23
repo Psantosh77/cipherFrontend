@@ -19,6 +19,7 @@ import {
   SHOW_SUCCESS_NOTIFICATION,
 } from "../../utils/toastify";
 import { deepOrange } from "@mui/material/colors";
+import Follower from "../followers/follower";
 
 const styles = {
   textArea: {
@@ -131,6 +132,8 @@ const Profile = () => {
   };
 
   const [userData, setUserData] = React.useState(initialValues);
+  const [higherEductions, setHigherEducation] = React.useState(null)
+  const [correntlyDo, setCorrentlyDo] = React.useState(null)
 
   const [demography, setDemography] = useState({
     firstName: "",
@@ -181,6 +184,9 @@ const Profile = () => {
           email: data.email,
           phoneNumber: data.phoneNumber,
         });
+
+        setHigherEducation(data.higherEducation)
+        setCorrentlyDo(data.correntlyDo)
       }
     } catch (error) {}
   };
@@ -254,6 +260,41 @@ const Profile = () => {
     }
   };
 
+  const handleChnageHigherEducation =(e)=>{
+    setHigherEducation(e.target.value)
+  }
+
+  const handleCurrentlyDo =(e)=>{
+    setCorrentlyDo(e.target.value)
+  }
+
+  const SubmitProfessional = async (e)=>{
+    e.preventDefault();
+    try{
+      e.preventDefault();
+      const req = {
+        id: UserId,
+        correntlyDo:correntlyDo,
+        higherEductions:higherEductions,
+      };
+      const response = await api.put("/users/updateUser", req);
+      if (response.data.status) {
+        SHOW_SUCCESS_NOTIFICATION(response.data.message);
+        getUser();
+      } else {
+        SHOW_ERROR_NOTIFICATION(response.data.message);
+      }
+
+    }
+    catch(err){
+      console.log(err)
+    }
+
+
+
+  }
+
+  
   return (
     <>
       <Box
@@ -431,7 +472,7 @@ const Profile = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography>PROFESSIONAL INFORMATION</Typography>
-                    <Button variant="contained" style={{ backgroundColor: "#f3912e", color: "white" }}>Save</Button>
+                    <Button onClick={SubmitProfessional} variant="contained" style={{ backgroundColor: "#f3912e", color: "white" }}>Save</Button>
                   </Box>
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -442,15 +483,17 @@ const Profile = () => {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          value={""}
+                          // value={higherEductions}
                           label="Age"
-                          onChange={""}
+                          onChange={handleChnageHigherEducation}
                           style={customStyle.input}
+                          defaultValue={higherEductions}
+                          
                         >
-                          <MenuItem value={10}>Secondary</MenuItem>
-                          <MenuItem value={20}>Higher Education</MenuItem>
-                          <MenuItem value={30}>Graduation</MenuItem>
-                          <MenuItem value={30}>Post Graduation</MenuItem>
+                          <MenuItem value={"Secondary"}>Secondary</MenuItem>
+                          <MenuItem value={"Higher Education"}>Higher Education</MenuItem>
+                          <MenuItem value={"Graduation"}>Graduation</MenuItem>
+                          <MenuItem value={"Post Graduation"}>Post Graduation</MenuItem>
                         </Select>
                         <ErrorMessage name="Highest education" />
                       </div>
@@ -464,16 +507,16 @@ const Profile = () => {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          value={""}
+                          value={correntlyDo}
                           label="Highest education"
-                          onChange={""}
+                          onChange={handleCurrentlyDo}
                           style={customStyle.input}
                         >
-                          <MenuItem value={10}>Schooling </MenuItem>
-                          <MenuItem value={20}>Collage Student</MenuItem>
-                          <MenuItem value={30}>Teaching</MenuItem>
-                          <MenuItem value={30}>Job</MenuItem>
-                          <MenuItem value={30}>Freelancing</MenuItem>
+                          <MenuItem value={"Schooling"}>Schooling </MenuItem>
+                          <MenuItem value={"Collage Student"}>Collage Student</MenuItem>
+                          <MenuItem value={"Teaching"}>Teaching</MenuItem>
+                          <MenuItem value={"Job"}>Job</MenuItem>
+                          <MenuItem value={"Freelancing"}>Freelancing</MenuItem>
                         </Select>
                         <ErrorMessage name="What do you do currently?" />
                       </div>
@@ -514,6 +557,10 @@ const Profile = () => {
             </Formik>
           </Grid>
         </Box>
+
+        <Box>
+        <Follower/>
+      </Box>
       </Box>
 
       {
@@ -634,6 +681,9 @@ const Profile = () => {
           </Modal>
         </div>
       }
+
+
+      
     </>
   );
 };

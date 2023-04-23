@@ -13,8 +13,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SignIn from "../pages/signIn/signin";
 import Register from "../pages/registration/registration";
+import { useHistory } from "react-router-dom";
 
 const Header = () => {
+  const history = useHistory();
   const isLogin = localStorage.getItem("isLogin");
 
   console.log("isLogin", typeof isLogin, isLogin);
@@ -52,13 +54,20 @@ const Header = () => {
 
   const handleLogOut = () => {
     setAuth("false");
-    window.location.reload();
+    history.push("/")
     localStorage.setItem("isLogin", "false");
+    window.location.reload();
+    localStorage.clear();
   };
+
+  const onClickProfile =()=>{
+    history.push("/profile")
+    window.location.reload();
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <FormGroup></FormGroup>
+     
       <AppBar position="static" color="transparent">
         <Toolbar>
           <IconButton
@@ -106,7 +115,7 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={()=>(handleClose() , onClickProfile())}>Profile</MenuItem>
                 <MenuItem onClick={() => (handleClose(), handleLogOut())}>
                   Log Out
                 </MenuItem>

@@ -8,9 +8,15 @@ import { ToastContainer } from "react-toastify";
 import Header from "./component/header";
 import Home from "./pages/landingPage/landingPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function App() {
   const isLogin = localStorage.getItem("isLogin");
+  const [loginStatus, setLoginStatus] = useState(isLogin)
+  useEffect(()=>{
+    setLoginStatus(loginStatus)
+  },[])
 
   return (
     <>
@@ -19,7 +25,7 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
-          {isLogin == "true" && <Route path="/profile" component={Profile} />}
+           <Route  exact path="/profile" component={ Profile } />
           <Route path="*" component={Home} />
         </Switch>
       </Router>

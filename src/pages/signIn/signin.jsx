@@ -100,6 +100,7 @@ const SignIn = ({
         handleClosesSignModal();
         // setAuth(response.data.status)
         localStorage.setItem("isLogin", "true");
+        localStorage.setItem("userId", response.data.userId)
         setAuth("true")
         setStatus("true")
       }

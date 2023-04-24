@@ -13,6 +13,8 @@ import api from "../../utils/api";
 import { useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
 
 import {
   SHOW_ERROR_NOTIFICATION,
@@ -73,7 +75,7 @@ const customStyle = {
     padding: "0 10px",
     width: "100%",
   },
-  demographyInput:{
+  demographyInput: {
     background: "#f2f5fa",
     border: "none",
     outline: "none",
@@ -105,15 +107,11 @@ const customStyle = {
   },
 };
 
-
-
 const Profile = () => {
   const UserId = localStorage.getItem("userId");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
- 
 
   const initialValues = {
     firstName: "",
@@ -132,8 +130,8 @@ const Profile = () => {
   };
 
   const [userData, setUserData] = React.useState(initialValues);
-  const [higherEductions, setHigherEducation] = React.useState(null)
-  const [correntlyDo, setCorrentlyDo] = React.useState(null)
+  const [higherEductions, setHigherEducation] = React.useState(null);
+  const [correntlyDo, setCorrentlyDo] = React.useState(null);
 
   const [demography, setDemography] = useState({
     firstName: "",
@@ -159,7 +157,7 @@ const Profile = () => {
   const getUser = async () => {
     try {
       const response = await api.get(`/users/getUser/${UserId}`);
-      
+
       const data = response.data.message;
       const status = response.data.status;
       if (status) {
@@ -185,8 +183,8 @@ const Profile = () => {
           phoneNumber: data.phoneNumber,
         });
 
-        setHigherEducation(data.higherEducation)
-        setCorrentlyDo(data.correntlyDo)
+        setHigherEducation(data.higherEducation);
+        setCorrentlyDo(data.correntlyDo);
       }
     } catch (error) {}
   };
@@ -260,22 +258,22 @@ const Profile = () => {
     }
   };
 
-  const handleChnageHigherEducation =(e)=>{
-    setHigherEducation(e.target.value)
-  }
+  const handleChnageHigherEducation = (e) => {
+    setHigherEducation(e.target.value);
+  };
 
-  const handleCurrentlyDo =(e)=>{
-    setCorrentlyDo(e.target.value)
-  }
+  const handleCurrentlyDo = (e) => {
+    setCorrentlyDo(e.target.value);
+  };
 
-  const SubmitProfessional = async (e)=>{
+  const SubmitProfessional = async (e) => {
     e.preventDefault();
-    try{
+    try {
       e.preventDefault();
       const req = {
         id: UserId,
-        correntlyDo:correntlyDo,
-        higherEductions:higherEductions,
+        correntlyDo: correntlyDo,
+        higherEductions: higherEductions,
       };
       const response = await api.put("/users/updateUser", req);
       if (response.data.status) {
@@ -284,17 +282,11 @@ const Profile = () => {
       } else {
         SHOW_ERROR_NOTIFICATION(response.data.message);
       }
-
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
+  };
 
-
-
-  }
-
-  
   return (
     <>
       <Box
@@ -336,7 +328,11 @@ const Profile = () => {
       <Box style={{ padding: "2%", background: "#f2f5fa" }}>
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography>ABOUT ME</Typography>
-          <Button variant="contained" onClick={handleSubmitAboutme} style={{ backgroundColor: "#f3912e", color: "white" }}>
+          <Button
+            variant="contained"
+            onClick={handleSubmitAboutme}
+            style={{ backgroundColor: "#f3912e", color: "white" }}
+          >
             Save
           </Button>
         </Box>
@@ -354,7 +350,30 @@ const Profile = () => {
         &nbsp;
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography>Cipher Map</Typography>
-          <Button variant="contained" style={{ backgroundColor: "#f3912e", color: "white" }}>Save</Button>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#f3912e", color: "white" }}
+          >
+            Save
+          </Button>
+        </Box>
+        <Box >
+          <CalendarHeatmap
+            startDate={new Date("2023-01-01")}
+            endDate={new Date("2023-12-31")}
+            values={[
+              { date: "2023-04-24", count: 12 },
+              { date: "2023-04-25", count: 122 },
+              { date: "2023-04-26", count: 38 },
+              {date: "2023-05-25", count: 98},
+              {date: "2023-05-27", count: 98},
+
+              {date: "2023-06-05", count: 98},
+              {date: "2023-05-07", count: 98}
+
+              // ...and so on
+            ]}
+          />
         </Box>
         &nbsp;
         <Divider />
@@ -371,7 +390,11 @@ const Profile = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography>ON THE WEB</Typography>
-                    <Button variant="contained" onClick={handleSubmitONWEB} style={{ backgroundColor: "#f3912e", color: "white" }}>
+                    <Button
+                      variant="contained"
+                      onClick={handleSubmitONWEB}
+                      style={{ backgroundColor: "#f3912e", color: "white" }}
+                    >
                       Save
                     </Button>
                   </Box>
@@ -472,7 +495,13 @@ const Profile = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography>PROFESSIONAL INFORMATION</Typography>
-                    <Button onClick={SubmitProfessional} variant="contained" style={{ backgroundColor: "#f3912e", color: "white" }}>Save</Button>
+                    <Button
+                      onClick={SubmitProfessional}
+                      variant="contained"
+                      style={{ backgroundColor: "#f3912e", color: "white" }}
+                    >
+                      Save
+                    </Button>
                   </Box>
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -488,12 +517,15 @@ const Profile = () => {
                           onChange={handleChnageHigherEducation}
                           style={customStyle.input}
                           defaultValue={higherEductions}
-                          
                         >
                           <MenuItem value={"Secondary"}>Secondary</MenuItem>
-                          <MenuItem value={"Higher Education"}>Higher Education</MenuItem>
+                          <MenuItem value={"Higher Education"}>
+                            Higher Education
+                          </MenuItem>
                           <MenuItem value={"Graduation"}>Graduation</MenuItem>
-                          <MenuItem value={"Post Graduation"}>Post Graduation</MenuItem>
+                          <MenuItem value={"Post Graduation"}>
+                            Post Graduation
+                          </MenuItem>
                         </Select>
                         <ErrorMessage name="Highest education" />
                       </div>
@@ -513,7 +545,9 @@ const Profile = () => {
                           style={customStyle.input}
                         >
                           <MenuItem value={"Schooling"}>Schooling </MenuItem>
-                          <MenuItem value={"Collage Student"}>Collage Student</MenuItem>
+                          <MenuItem value={"Collage Student"}>
+                            Collage Student
+                          </MenuItem>
                           <MenuItem value={"Teaching"}>Teaching</MenuItem>
                           <MenuItem value={"Job"}>Job</MenuItem>
                           <MenuItem value={"Freelancing"}>Freelancing</MenuItem>
@@ -529,7 +563,12 @@ const Profile = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography>PASSWORD & SECURITY</Typography>
-                    <Button variant="contained" style={{ backgroundColor: "#f3912e", color: "white" }}>Save</Button>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: "#f3912e", color: "white" }}
+                    >
+                      Save
+                    </Button>
                   </Box>
                   <Grid item xs={12} md={6}>
                     <div>
@@ -550,17 +589,21 @@ const Profile = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography>INTERESTS</Typography>
-                    <Button variant="contained" style={{ backgroundColor: "#f3912e", color: "white" }}>Save</Button>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: "#f3912e", color: "white" }}
+                    >
+                      Save
+                    </Button>
                   </Box>
                 </Form>
               )}
             </Formik>
           </Grid>
         </Box>
-
         <Box>
-        <Follower/>
-      </Box>
+          <Follower />
+        </Box>
       </Box>
 
       {
@@ -666,7 +709,13 @@ const Profile = () => {
                       marginTop: "2%",
                     }}
                   >
-                    <Button onClick={handleClose} variant="contained" style={{ backgroundColor: "#2d3333", color: "white" }}>Cancle</Button>
+                    <Button
+                      onClick={handleClose}
+                      variant="contained"
+                      style={{ backgroundColor: "#2d3333", color: "white" }}
+                    >
+                      Cancle
+                    </Button>
                     <Button
                       variant="contained"
                       onClick={submitDemography}
@@ -681,9 +730,6 @@ const Profile = () => {
           </Modal>
         </div>
       }
-
-
-      
     </>
   );
 };

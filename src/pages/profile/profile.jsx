@@ -113,6 +113,10 @@ const Profile = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [openPassword, setOpenPassword] = React.useState(false);
+  const handleOpenPassword = () => setOpenPassword(true);
+  const handleClosePassword = () => setOpenPassword(false);
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -287,6 +291,11 @@ const Profile = () => {
     }
   };
 
+  const handleSubmitPassword = (e)=>{
+    e.preventDefault();
+
+  }
+
   return (
     <>
       <Box
@@ -357,7 +366,7 @@ const Profile = () => {
             Save
           </Button>
         </Box>
-        <Box >
+        <Box>
           <CalendarHeatmap
             startDate={new Date("2023-01-01")}
             endDate={new Date("2023-12-31")}
@@ -365,11 +374,11 @@ const Profile = () => {
               { date: "2023-04-24", count: 12 },
               { date: "2023-04-25", count: 122 },
               { date: "2023-04-26", count: 38 },
-              {date: "2023-05-25", count: 98},
-              {date: "2023-05-27", count: 98},
+              { date: "2023-05-25", count: 98 },
+              { date: "2023-05-27", count: 98 },
 
-              {date: "2023-06-05", count: 98},
-              {date: "2023-05-07", count: 98}
+              { date: "2023-06-05", count: 98 },
+              { date: "2023-05-07", count: 98 },
 
               // ...and so on
             ]}
@@ -566,8 +575,9 @@ const Profile = () => {
                     <Button
                       variant="contained"
                       style={{ backgroundColor: "#f3912e", color: "white" }}
+                      onClick={handleOpenPassword}
                     >
-                      Save
+                      Edit
                     </Button>
                   </Box>
                   <Grid item xs={12} md={6}>
@@ -593,15 +603,41 @@ const Profile = () => {
                       variant="contained"
                       style={{ backgroundColor: "#f3912e", color: "white" }}
                     >
-                      Save
-                    </Button>
+                      Edit
+                    </Button> 
                   </Box>
+                  <>
+                    <Grid container spacing={2}>
+                      <Grid item md={2}>
+                        <Button
+                          variant={"contained"}
+                          style={{
+                            backgroundColor: "#f2ebe6",
+                            color: "#f3912e",
+                          }}
+                        >
+                          Machine Learning
+                        </Button>
+                      </Grid>
+                      <Grid item md={2}>
+                        <Button
+                          variant={"contained"}
+                          style={{
+                            backgroundColor: "#f2ebe6",
+                            color: "#f3912e",
+                          }}
+                        >
+                          Game Development
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </>
                 </Form>
               )}
             </Formik>
           </Grid>
         </Box>
-        <Box>
+        <Box sx={{marginTop:"20px" , marginBottom:"20px"}}>
           <Follower />
         </Box>
       </Box>
@@ -729,6 +765,111 @@ const Profile = () => {
             </Box>
           </Modal>
         </div>
+      }
+
+      {
+         <div>
+         <Modal
+           open={openPassword}
+           onClose={handleClosePassword}
+           aria-labelledby="modal-modal-title"
+           aria-describedby="modal-modal-description"
+         >
+           <Box sx={styles.Modal}>
+             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+               <Typography id="modal-modal-title" variant="h6" component="h2">
+                 Password Update
+               </Typography>
+               <CloseIcon onClick={handleClosePassword} />
+             </Box>
+             <Box
+               style={{
+                 display: "flex",
+                 justifyContent: "space-between",
+                 alignItems: "center",
+                 gap: "3%",
+               }}
+             >
+              
+               <Box style={{ flex: 3 }}>
+                 <Grid>
+                   <Formik
+                     initialValues={demography}
+                     validationSchema={validationSchema}
+                     onSubmit={handleSubmitPassword}
+                   >
+                     {({ isSubmitting }) => (
+                       <Form>
+                         <div>
+                           <label htmlFor="currentPassword">Current Password</label>
+                           <Field
+                             name="currentPassword"
+                             type="text"
+                             style={customStyle.demographyInput}
+                             placeholder="Current Password"
+                            //  value={demography.firstName}
+                            //  onChange={handleChangeDemography}
+                           />
+                           <ErrorMessage name="firstName" />
+                         </div>
+                         <div>
+                           <label htmlFor="newPassword">New Password</label>
+                           <Field
+                             name="newPassword"
+                             type="text"
+                             style={customStyle.demographyInput}
+                             placeholder="New Password"
+                            //  onChange={handleChangeDemography}
+                             
+                           />
+                           <ErrorMessage name="newPassword" />
+                         </div>
+                         <div>
+                           <label htmlFor="confirmPassword">Confirm Password</label>
+                           <Field
+                             name="confirmPassword"
+                             type="confirmPassword"
+                             style={customStyle.demographyInput}
+                             placeholder="Confirm Password"
+                            //  onChange={handleChangeDemography}
+                            
+                           />
+                           <ErrorMessage name="confirmPassword" />
+                         </div>
+                         
+                       </Form>
+                     )}
+                   </Formik>
+                 </Grid>
+
+                 <Box
+                   style={{
+                     display: "flex",
+                     justifyContent: "end",
+                     gap: "2%",
+                     marginTop: "2%",
+                   }}
+                 >
+                   <Button
+                     onClick={handleClose}
+                     variant="contained"
+                     style={{ backgroundColor: "#2d3333", color: "white" }}
+                   >
+                     Cancle
+                   </Button>
+                   <Button
+                     variant="contained"
+                     onClick={handleSubmitPassword}
+                     style={{ backgroundColor: "#f3912e", color: "white" }}
+                   >
+                     Save
+                   </Button>
+                 </Box>
+               </Box>
+             </Box>
+           </Box>
+         </Modal>
+       </div>
       }
     </>
   );

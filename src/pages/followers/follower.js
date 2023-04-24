@@ -77,7 +77,7 @@ const Follower = () => {
   return (
     <>
       <Box>
-        <Typography>User Following You</Typography>
+        <Typography>USER FOLLOWING YOU</Typography>
       </Box>
 
       <Grid container spacing={2}>

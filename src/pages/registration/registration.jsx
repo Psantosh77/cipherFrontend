@@ -244,7 +244,7 @@ const Register = ({
                   </Box>
 
                   <Box sx={{display:"flex", justifyContent:"center" , alignContent:"center" }}>
-                 <Typography>Don't have an account ? <span style={{color:"#f3912e"} } onClick={toggle}>Get Started</span></Typography>
+                 <Typography>Already Sign up ? <span style={{color:"#f3912e"} } onClick={toggle}>Get Started</span></Typography>
                 </Box>
                 </Form>
               )}
